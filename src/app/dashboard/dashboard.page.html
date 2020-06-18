@@ -1,26 +1,75 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
+    <ion-title>Formation list</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-button (click)="GoToCreationPage()">
+      <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+      &nbsp;New Formation
+    </ion-button>
+  </ion-toolbar>
+  <div class="bar bar-subheader bar-assertive">
+    <h2 class="title">Your Registered EmailID : {{userEmail}}</h2>
+  </div>
 </ion-header>
 
-<ion-content class="ion-padding">
 
-  <ion-grid>
-    <ion-row>
-      <ion-col text-center>
-        Welcome to Dashboard!
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col text-center>
-        Your Registered EmailID : {{userEmail}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-card *ngFor="let formation of formations" routerLink="/detail/{{formation.id}}">
+  <ion-card-header>
+    <ion-card-title>{{formation.Name}}</ion-card-title>
+    <ion-card-subtitle>Duration: {{formation.Duration}}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-button shape="round" color="secondary" size="small" (click)="EditRecord(formation)">
+      <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+    </ion-button>
+    <ion-button shape="round" color="danger" size="small" (click)="RemoveRecord(formation.id)">
+      <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+    </ion-button>
+  </ion-card-content>
+  <ng-template #elseBlock>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Edit
+            </ion-col>
+            <ion-col>
+              <ion-button fill="clear" color="medium" size="small" (click)="formation.isEdit = false">
+                Cancel
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button fill="outline" color="success" size="small" (click)="UpdateRecord(formation)">
+                Update
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label><strong>Name</strong></ion-label>
+        <ion-input type="text" [(ngModel)]="formation.Name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><strong>Description</strong></ion-label>
+        <ion-input type="text" [(ngModel)]="formation.Description"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><strong>Duration</strong></ion-label>
+        <ion-input type="text" [(ngModel)]="formation.Duration"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label><strong>Price</strong></ion-label>
+        <ion-input type="text" [(ngModel)]="formation.Price"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ng-template>
+</ion-card>
 
-
-</ion-content>
 <ion-footer (click)="logout()">
   <ion-toolbar color="secondary">
     <ion-title>Log out</ion-title>
